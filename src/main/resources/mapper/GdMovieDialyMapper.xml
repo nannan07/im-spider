@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allmsi.spider.dao.GdMovieDialyMapper">
+	<resultMap id="BaseResultMap"
+		type="com.allmsi.spider.model.gd.GdMovieDialy">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="showId" property="showId" jdbcType="VARCHAR" />
+		<result column="todayPlayCount" property="todayPlayCount"
+			jdbcType="VARCHAR" />
+		<result column="dailyPlayCount" property="dailyPlayCount"
+			jdbcType="VARCHAR" />
+		<result column="releaseDays" property="releaseDays"
+			jdbcType="VARCHAR" />
+		<result column="releaseDate" property="releaseDate"
+			jdbcType="VARCHAR" />
+		<result column="totalPlayCount" property="totalPlayCount"
+			jdbcType="VARCHAR" />
+		<result column="palyCountLastDate" property="palyCountLastDate"
+			jdbcType="INTEGER" />
+		<result column="playCountRankByRealeaseYear"
+			property="playCountRankByRealeaseYear" jdbcType="VARCHAR" />
+		<result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+		<result column="date" property="date" jdbcType="VARCHAR" />
+		<result column="hour" property="hour" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, showId, todayPlayCount, dailyPlayCount, releaseDays, releaseDate,
+		totalPlayCount,palyCountLastDate, playCountRankByRealeaseYear, cTime,date,hour
+	</sql>
+	<select id="selectMovieDialyList" resultMap="BaseResultMap">
+		select showId,palyCountLastDate,max(CONCAT(date,"-",hour)) from
+		guduo_movie_dialy GROUP BY showId,palyCountLastDate
+	</select>
+	<insert id="insetBatch"
+		parameterType="com.allmsi.spider.model.gd.GdMovieDialy">
+		insert into guduo_movie_dialy (id, showId, todayPlayCount, dailyPlayCount, releaseDays, releaseDate,
+		totalPlayCount,palyCountLastDate, playCountRankByRealeaseYear, cTime,date,hour)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.id},#{item.showId}, #{item.todayPlayCount}, #{item.dailyPlayCount},
+			#{item.releaseDays},#{item.releaseDate},#{item.totalPlayCount},
+			#{item.palyCountLastDate},#{item.playCountRankByRealeaseYear},now(),#{item.date},#{item.hour})
+		</foreach>
+	</insert>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allmsi.spider.dao.GdMoviePersonalMapper" >
+  <resultMap id="BaseResultMap" type="com.allmsi.spider.model.gd.GdMoviePersonal" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="showId" property="showId" jdbcType="VARCHAR" />
+    <result column="personName" property="personName" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="roles" property="roles" jdbcType="VARCHAR" />
+    <result column="personType" property="personType" jdbcType="VARCHAR" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, showId, personName, avatar, category, roles, personType, sequence
+  </sql>
+  
+  <insert id="insertBatch" parameterType="com.allmsi.spider.model.gd.GdMoviePersonal" >
+    insert into guduo_movie_personal (id, showId, personName, 
+      avatar, category, roles, 
+      personType, sequence)
+    values 
+     <foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.id},#{item.showId}, #{item.personName},
+			#{item.avatar},#{item.category},#{item.roles},#{item.personType},#{item.sequence})
+		</foreach>
+  </insert>
+
+  
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.allmsi.spider.dao.GdMovieHourlyRealTimeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.allmsi.spider.model.gd.GdMovieHourlyRealTime">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="showId" property="showId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="date" property="date" jdbcType="VARCHAR" />
+		<result column="rank" property="rank" jdbcType="TINYINT" />
+		<result column="rise" property="rise" jdbcType="TINYINT" />
+		<result column="days" property="days" jdbcType="VARCHAR" />
+		<result column="platformImgs" property="platformImgs"
+			jdbcType="VARCHAR" />
+		<result column="platformId" property="platformId"
+			jdbcType="VARCHAR" />
+		<result column="playCount" property="playCount"
+			jdbcType="INTEGER" />
+		<result column="playCountShow" property="playCountShow"
+			jdbcType="VARCHAR" />
+		<result column="totalPlayCount" property="totalPlayCount"
+			jdbcType="INTEGER" />
+		<result column="totalPlayCountShow"
+			property="totalPlayCountShow" jdbcType="VARCHAR" />
+		<result column="gdi" property="gdi" jdbcType="VARCHAR" />
+		<result column="gdiNum" property="gdiNum" jdbcType="VARCHAR" />
+		<result column="gdiShow" property="gdiShow" jdbcType="VARCHAR" />
+		<result column="hotCount" property="hotCount"
+			jdbcType="VARCHAR" />
+		<result column="hotCountShow" property="hotCountShow"
+			jdbcType="VARCHAR" />
+		<result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+		<result column="hour" property="hour" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, showId, name, date, rank, rise, days, platformImgs,
+		platformId,
+		playCount, playCountShow,
+		totalPlayCount,totalPlayCountShow, gdi, gdiShow,
+		gdiShow, hotCount,
+		hotCountShow, cTime, hour, state
+	</sql>
+
+
+	<select id="selectMovieHourlyRealTimeList"
+		resultType="java.lang.String">
+		select distinct
+		showId
+		from guduo_movie_hourly_real_time
+	</select>
+
+	<update id="updateStatus">
+		update
+		guduo_movie_hourly_real_time set state=1
+	</update>
+	<delete id="deleteByStatus">
+		delete from
+		guduo_movie_hourly_real_time
+		where state =
+		1
+	</delete>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into guduo_movie_hourly_real_time
+		(id, showId, name, date, rank,
+		rise,
+		days, platformImgs, platformId, playCount, playCountShow,
+		totalPlayCount,totalPlayCountShow, gdi, gdiNum, gdiShow, hotCount,
+		hotCountShow,
+		cTime,hour,state)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.id},#{item.showId}, #{item.name}, #{item.date},
+			#{item.rank},#{item.rise},#{item.days},
+			#{item.platformImgs},#{item.platformId},
+			#{item.playCount},#{item.playCountShow},
+			#{item.totalPlayCount},#{item.totalPlayCountShow},#{item.gdi},#{item.gdiNum},
+			#{item.gdiShow},#{item.hotCount},#{item.hotCountShow},now(),#{item.hour},0)
+		</foreach>
+	</insert>
+</mapper>

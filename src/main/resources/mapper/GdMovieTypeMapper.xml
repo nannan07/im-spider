@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allmsi.spider.dao.GdMovieTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.allmsi.spider.model.gd.GdMovieType" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="showId" property="showId" jdbcType="VARCHAR" />
+    <result column="typeName" property="typeName" jdbcType="VARCHAR" />
+    <result column="typeOrder" property="typeOrder" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, showId, typeName, typeOrder
+  </sql>
+  
+  <insert id="insertBatch" parameterType="com.allmsi.spider.model.gd.GdMovieType" >
+    insert into guduo_movie_type (id, showId, typeName, 
+      typeOrder)
+    values 
+    <foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.id},#{item.showId}, #{item.typeName},
+			#{item.typeOrder})
+		</foreach>
+  </insert>
+  
+</mapper>

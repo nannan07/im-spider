@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allmsi.spider.dao.GdMovieInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.allmsi.spider.model.gd.GdMovieInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="showId" property="showId" jdbcType="VARCHAR" />
+		<result column="showName" property="showName"
+			jdbcType="VARCHAR" />
+		<result column="coverUrl" property="coverUrl" jdbcType="VARCHAR" />
+		<result column="coverImage" property="coverImage" jdbcType="VARCHAR" />
+		<result column="category" property="category"
+			jdbcType="VARCHAR" />
+		<result column="releaseDate" property="releaseDate"
+			jdbcType="VARCHAR" />
+		<result column="days" property="days" jdbcType="VARCHAR" />
+		<result column="duration" property="duration"
+			jdbcType="VARCHAR" />
+		<result column="intro" property="intro" jdbcType="VARCHAR" />
+		<result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, showId, showName, coverUrl,coverImage, category, releaseDate, days, duration,
+		intro, cTime
+	</sql>
+	<select id="selectShowIdList" resultType="java.lang.String">
+		select
+		showId
+		from guduo_movie_info
+	</select>
+	
+	<insert id="insertBatch"
+		parameterType="com.allmsi.spider.model.gd.GdMovieInfo">
+		insert into guduo_movie_info (id, showId, showName,coverUrl,coverImage, category,
+		releaseDate,
+		days, duration, intro, cTime)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.id},#{item.showId}, #{item.showName},
+			#{item.coverUrl},#{item.coverImage},
+			#{item.category},#{item.releaseDate},#{item.days},
+			#{item.duration},#{item.intro},now())
+		</foreach>
+	</insert>
+
+</mapper>
